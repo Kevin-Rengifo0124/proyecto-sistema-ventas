@@ -22,31 +22,29 @@ public class LoginVista extends javax.swing.JFrame {
         this.setLocationRelativeTo(this);
 
     }
-    
-    public void validar(){
+
+    public void validar() {
         String correo = txtCorreo.getText();
         String clave = String.valueOf(txtClave.getPassword());
         
         if (correo.isEmpty() || clave.isEmpty()) {
-            
+            JOptionPane.showMessageDialog(null, "Debe ingresar correo y contraseña");
+        } else {
             Login login = new Login();
             LoginDao loginDao = new LoginDao();
-            
+
             login = loginDao.autenticarUsuario(correo, clave);
-            
+
             if (login.getCorreo() != null && login.getClave() != null) {
-                
                 SistemaVista sistemaVista = new SistemaVista();
                 sistemaVista.setVisible(true);
                 dispose();
             } else {
-                JOptionPane.showMessageDialog(null, "Correo o la contraseña incorrecta");
+                JOptionPane.showMessageDialog(null, "Correo o contraseña incorrecta");
             }
-            
         }
-        
-        
-    } 
+
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
