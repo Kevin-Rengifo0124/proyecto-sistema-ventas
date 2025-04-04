@@ -4,21 +4,49 @@
  */
 package vista;
 
+import dao.LoginDao;
 import javax.swing.JOptionPane;
+import modelo.Login;
 
 /**
  *
  * @author kevinrengifo
  */
-public class Login extends javax.swing.JFrame {
+public class LoginVista extends javax.swing.JFrame {
 
     /**
      * Creates new form Login
      */
-    public Login() {
+    public LoginVista() {
         initComponents();
+        this.setLocationRelativeTo(this);
 
     }
+    
+    public void validar(){
+        String correo = txtCorreo.getText();
+        String clave = String.valueOf(txtClave.getPassword());
+        
+        if (correo.isEmpty() || clave.isEmpty()) {
+            
+            Login login = new Login();
+            LoginDao loginDao = new LoginDao();
+            
+            login = loginDao.autenticarUsuario(correo, clave);
+            
+            if (login.getCorreo() != null && login.getClave() != null) {
+                
+                SistemaVista sistemaVista = new SistemaVista();
+                sistemaVista.setVisible(true);
+                dispose();
+            } else {
+                JOptionPane.showMessageDialog(null, "Correo o la contraseña incorrecta");
+            }
+            
+        }
+        
+        
+    } 
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -34,7 +62,7 @@ public class Login extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         txtCorreo = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        txtContrasenia = new javax.swing.JPasswordField();
+        txtClave = new javax.swing.JPasswordField();
         botonIniciar = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
@@ -64,14 +92,19 @@ public class Login extends javax.swing.JFrame {
         jLabel4.setForeground(new java.awt.Color(4, 58, 106));
         jLabel4.setText("Contraseña");
 
-        txtContrasenia.setBackground(new java.awt.Color(255, 255, 255));
-        txtContrasenia.setForeground(new java.awt.Color(102, 102, 102));
+        txtClave.setBackground(new java.awt.Color(255, 255, 255));
+        txtClave.setForeground(new java.awt.Color(102, 102, 102));
 
         botonIniciar.setBackground(new java.awt.Color(4, 58, 106));
         botonIniciar.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         botonIniciar.setForeground(new java.awt.Color(255, 255, 255));
         botonIniciar.setText("Iniciar");
         botonIniciar.setBorder(null);
+        botonIniciar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonIniciarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -89,7 +122,7 @@ public class Login extends javax.swing.JFrame {
                             .addComponent(jLabel4)
                             .addComponent(jLabel3)
                             .addComponent(txtCorreo)
-                            .addComponent(txtContrasenia, javax.swing.GroupLayout.DEFAULT_SIZE, 226, Short.MAX_VALUE)))
+                            .addComponent(txtClave, javax.swing.GroupLayout.DEFAULT_SIZE, 226, Short.MAX_VALUE)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(86, 86, 86)
                         .addComponent(botonIniciar, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -107,7 +140,7 @@ public class Login extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jLabel4)
                 .addGap(18, 18, 18)
-                .addComponent(txtContrasenia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtClave, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30)
                 .addComponent(botonIniciar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(49, Short.MAX_VALUE))
@@ -195,6 +228,10 @@ public class Login extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void botonIniciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonIniciarActionPerformed
+        validar();
+    }//GEN-LAST:event_botonIniciarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -212,20 +249,21 @@ public class Login extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(LoginVista.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(LoginVista.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(LoginVista.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(LoginVista.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Login().setVisible(true);
+                new LoginVista().setVisible(true);
             }
         });
     }
@@ -244,7 +282,7 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPasswordField txtContrasenia;
+    private javax.swing.JPasswordField txtClave;
     private javax.swing.JTextField txtCorreo;
     // End of variables declaration//GEN-END:variables
 }
