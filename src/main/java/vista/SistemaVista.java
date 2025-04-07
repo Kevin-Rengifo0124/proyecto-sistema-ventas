@@ -4,8 +4,10 @@
  */
 package vista;
 
+import dao.ClienteDao;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import modelo.Cliente;
 
 /**
  *
@@ -13,11 +15,12 @@ import javax.swing.table.DefaultTableModel;
  */
 public class SistemaVista extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Sistema
-     */
+    Cliente cliente = new Cliente();
+    ClienteDao clienteDao = new ClienteDao();
+
     public SistemaVista() {
         initComponents();
+        this.setLocationRelativeTo(this);
 
     }
 
@@ -402,6 +405,11 @@ public class SistemaVista extends javax.swing.JFrame {
 
         botonGuardarCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/GuardarTodo.png"))); // NOI18N
         botonGuardarCliente.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        botonGuardarCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonGuardarClienteActionPerformed(evt);
+            }
+        });
 
         botonEditarCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Actualizar (2).png"))); // NOI18N
         botonEditarCliente.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -862,6 +870,27 @@ public class SistemaVista extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void botonGuardarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonGuardarClienteActionPerformed
+        String dni = txtDniCliente.getText().trim();
+        String nombre = txtNombreCliente.getText().trim();
+        String telefono = txtTelefonoCliente.getText().trim();
+        String direccion = txtDireccionCliente.getText().trim();
+        String razonSocial = txtRazonSocialCliente.getText().trim();
+
+        if (dni.isEmpty() || nombre.isEmpty() || telefono.isEmpty() || direccion.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Por favor completa todos los campos.");
+        } else {
+            cliente.setDni(Integer.parseInt(dni));
+            cliente.setNombre(nombre);
+            cliente.setTelefono(Integer.parseInt(telefono));
+            cliente.setDireccion(direccion);
+            cliente.setRazonSocial(razonSocial);
+            
+            clienteDao.registrarCliente(cliente);
+            JOptionPane.showMessageDialog(null, "¡Cliente Registrado!");
+        }
+    }//GEN-LAST:event_botonGuardarClienteActionPerformed
 
     /**
      * @param args the command line arguments

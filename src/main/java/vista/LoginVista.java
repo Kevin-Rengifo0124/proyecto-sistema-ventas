@@ -24,8 +24,8 @@ public class LoginVista extends javax.swing.JFrame {
     }
 
     public void validar() {
-        String correo = txtCorreo.getText();
-        String clave = String.valueOf(txtClave.getPassword());
+        String correo = txtCorreo.getText().trim();
+        String clave = String.valueOf(txtClave.getPassword()).trim();
         
         if (correo.isEmpty() || clave.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Debe ingresar correo y contraseña");
