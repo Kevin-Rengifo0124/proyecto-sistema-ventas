@@ -75,4 +75,23 @@ public class ClienteDao {
         return listaCliente;
     }
 
+    public boolean eliminarCliente(int id) {
+        String eliminar = "DELETE FROM clientes WHERE id = ?";
+        try {
+            conexion = conexionBD.getConexion();
+            sentenciaPreparada = conexion.prepareStatement(eliminar);
+            sentenciaPreparada.setInt(1, id);
+            sentenciaPreparada.execute();
+            return true;
+        } catch (SQLException excepcion) {
+            System.out.println(excepcion.toString());
+            return false;
+        } finally {
+            try {
+                conexion.close();
+            } catch (SQLException excepcion) {
+                System.out.println(excepcion.toString());
+            }
+        }
+    }
 }

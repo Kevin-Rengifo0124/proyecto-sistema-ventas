@@ -31,33 +31,24 @@ public class SistemaVista extends javax.swing.JFrame {
      * los datos desde el DAO y actualiza el modelo de la tabla.
      */
     public void listarClientes() {
-        try {
-            // Obtener datos
-            List<Cliente> listaClientes = clienteDao.listarCliente();
+        List<Cliente> listarCliente = clienteDao.listarCliente();
+        tablaModelo = (DefaultTableModel) tablaCliente.getModel();
 
-            // Limpiar tabla antes de añadir datos
-            tablaModelo = (DefaultTableModel) tablaCliente.getModel();
-            tablaModelo.setRowCount(0);
+        Object[] objectos = new Object[6];
 
-            // Preparar y añadir filas
-            Object[] fila = new Object[6];
+        for (int i = 0; i < listarCliente.size(); i++) {
+            objectos[0] = listarCliente.get(i).getId();
+            objectos[1] = listarCliente.get(i).getDni();
+            objectos[2] = listarCliente.get(i).getNombre();
+            objectos[3] = listarCliente.get(i).getTelefono();
+            objectos[4] = listarCliente.get(i).getDireccion();
+            objectos[5] = listarCliente.get(i).getRazonSocial();
 
-            for (Cliente cliente : listaClientes) {
-                fila[0] = cliente.getId();
-                fila[1] = cliente.getDni();
-                fila[2] = cliente.getNombre();
-                fila[3] = cliente.getTelefono();
-                fila[4] = cliente.getDireccion();
-                fila[5] = cliente.getRazonSocial();
-
-                tablaModelo.addRow(fila);
-            }
-
-            tablaCliente.setModel(tablaModelo);
-        } catch (Exception e) {
-            System.err.println("Error al cargar la lista de clientes: " + e.getMessage());
-            // Aquí podrías mostrar un mensaje al usuario
+            tablaModelo.addRow(objectos);
         }
+
+        tablaCliente.setModel(tablaModelo);
+
     }
 
     /**
@@ -435,6 +426,11 @@ public class SistemaVista extends javax.swing.JFrame {
                 "Id", "Dni/Ruc", "Nombre", "Télefono", "Dirección", "Razón"
             }
         ));
+        tablaCliente.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaClienteMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(tablaCliente);
         if (tablaCliente.getColumnModel().getColumnCount() > 0) {
             tablaCliente.getColumnModel().getColumn(0).setPreferredWidth(50);
@@ -457,6 +453,11 @@ public class SistemaVista extends javax.swing.JFrame {
 
         botonEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/eliminar.png"))); // NOI18N
         botonEliminar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        botonEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonEliminarActionPerformed(evt);
+            }
+        });
 
         botoNuevoCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/nuevo.png"))); // NOI18N
         botoNuevoCliente.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -912,6 +913,7 @@ public class SistemaVista extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+
     private void botonGuardarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonGuardarClienteActionPerformed
         String dni = txtDniCliente.getText().trim();
         String nombre = txtNombreCliente.getText().trim();
@@ -929,14 +931,60 @@ public class SistemaVista extends javax.swing.JFrame {
             cliente.setRazonSocial(razonSocial);
 
             clienteDao.registrarCliente(cliente);
+            limpiarTabla();
+            listarClientes();
             JOptionPane.showMessageDialog(null, "¡Cliente Registrado!");
         }
     }//GEN-LAST:event_botonGuardarClienteActionPerformed
 
     private void botonClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonClientesActionPerformed
+        limpiarTabla();
         listarClientes();
         jTabbedPane1.setSelectedIndex(1);
     }//GEN-LAST:event_botonClientesActionPerformed
+
+    private void tablaClienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaClienteMouseClicked
+        int fila = tablaCliente.rowAtPoint(evt.getPoint());
+        txtIdCliente.setText(tablaCliente.getValueAt(fila, 0).toString());
+        txtDniCliente.setText(tablaCliente.getValueAt(fila, 1).toString());
+        txtNombreCliente.setText(tablaCliente.getValueAt(fila, 2).toString());
+        txtTelefonoCliente.setText(tablaCliente.getValueAt(fila, 3).toString());
+        txtDireccionCliente.setText(tablaCliente.getValueAt(fila, 4).toString());
+        txtRazonSocialCliente.setText(tablaCliente.getValueAt(fila, 5).toString());
+    }//GEN-LAST:event_tablaClienteMouseClicked
+
+    private void limpiarTabla() {
+        for (int i = 0; i < tablaModelo.getRowCount(); i++) {
+            tablaModelo.removeRow(i);
+            i = i - 1;
+        }
+    }
+
+
+    private void botonEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEliminarActionPerformed
+        if (txtIdCliente.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "");
+        } else {
+            int pregunta = JOptionPane.showConfirmDialog(null, "¿Esta seguro de eliminar?");
+            if (pregunta == 0) {
+                int id = Integer.parseInt(txtIdCliente.getText());
+                clienteDao.eliminarCliente(id);
+                limpiarTabla();
+                listarClientes();
+            }
+
+        }
+    }//GEN-LAST:event_botonEliminarActionPerformed
+
+    private void limpiarCampos() {
+        txtIdCliente.setText("");
+        txtDniCliente.setText("");
+        txtNombreCliente.setText("");
+        txtTelefonoCliente.setText("");
+        txtDireccionCliente.setText("");
+        txtRazonSocialCliente.setText("");
+
+    }
 
     /**
      * @param args the command line arguments
