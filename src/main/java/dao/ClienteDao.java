@@ -7,7 +7,10 @@ package dao;
 import configuracion.ConexionBD;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
 import modelo.Cliente;
 
@@ -20,6 +23,7 @@ public class ClienteDao {
     private final ConexionBD conexionBD = new ConexionBD();
     private Connection conexion;
     private PreparedStatement sentenciaPreparada;
+    private ResultSet resultadoConsulta;
 
     public boolean registrarCliente(Cliente cliente) {
         String insertar = "INSERT INTO clientes (dni, nombre, telefono, direccion, razon) VALUES (?,?,?,?,?)";
@@ -44,6 +48,31 @@ public class ClienteDao {
                 System.out.println(excepcion.toString());
             }
         }
+    }
+
+    public List listarCliente() {
+        List<Cliente> listaCliente = new ArrayList<>();
+        String listar = "SELECT * FROM clientes";
+
+        try {
+            conexion = conexionBD.getConexion();
+            sentenciaPreparada = conexion.prepareStatement(listar);
+            resultadoConsulta = sentenciaPreparada.executeQuery();
+
+            while (resultadoConsulta.next()) {
+                Cliente cliente = new Cliente();
+                cliente.setId(resultadoConsulta.getInt("id"));
+                cliente.setDni(resultadoConsulta.getInt("dni"));
+                cliente.setNombre(resultadoConsulta.getString("nombre"));
+                cliente.setTelefono(resultadoConsulta.getInt("telefono"));
+                cliente.setDireccion(resultadoConsulta.getString("direccion"));
+                cliente.setRazonSocial(resultadoConsulta.getString("razon"));
+                listaCliente.add(cliente);
+            }
+        } catch (SQLException excepcion) {
+            System.out.println(excepcion.toString());
+        }
+        return listaCliente;
     }
 
 }

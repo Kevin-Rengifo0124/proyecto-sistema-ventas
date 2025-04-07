@@ -5,6 +5,7 @@
 package vista;
 
 import dao.ClienteDao;
+import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import modelo.Cliente;
@@ -17,11 +18,46 @@ public class SistemaVista extends javax.swing.JFrame {
 
     Cliente cliente = new Cliente();
     ClienteDao clienteDao = new ClienteDao();
+    DefaultTableModel tablaModelo = new DefaultTableModel();
 
     public SistemaVista() {
         initComponents();
         this.setLocationRelativeTo(this);
 
+    }
+
+    /**
+     * Carga y muestra la lista de clientes en la tabla de la interfaz. Recupera
+     * los datos desde el DAO y actualiza el modelo de la tabla.
+     */
+    public void listarClientes() {
+        try {
+            // Obtener datos
+            List<Cliente> listaClientes = clienteDao.listarCliente();
+
+            // Limpiar tabla antes de añadir datos
+            tablaModelo = (DefaultTableModel) tablaCliente.getModel();
+            tablaModelo.setRowCount(0);
+
+            // Preparar y añadir filas
+            Object[] fila = new Object[6];
+
+            for (Cliente cliente : listaClientes) {
+                fila[0] = cliente.getId();
+                fila[1] = cliente.getDni();
+                fila[2] = cliente.getNombre();
+                fila[3] = cliente.getTelefono();
+                fila[4] = cliente.getDireccion();
+                fila[5] = cliente.getRazonSocial();
+
+                tablaModelo.addRow(fila);
+            }
+
+            tablaCliente.setModel(tablaModelo);
+        } catch (Exception e) {
+            System.err.println("Error al cargar la lista de clientes: " + e.getMessage());
+            // Aquí podrías mostrar un mensaje al usuario
+        }
     }
 
     /**
@@ -78,7 +114,7 @@ public class SistemaVista extends javax.swing.JFrame {
         txtDireccionCliente = new javax.swing.JTextField();
         txtRazonSocialCliente = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
-        TableCliente = new javax.swing.JTable();
+        tablaCliente = new javax.swing.JTable();
         botonGuardarCliente = new javax.swing.JButton();
         botonEditarCliente = new javax.swing.JButton();
         botonEliminar = new javax.swing.JButton();
@@ -151,6 +187,11 @@ public class SistemaVista extends javax.swing.JFrame {
         botonClientes.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         botonClientes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Clientes.png"))); // NOI18N
         botonClientes.setText("Clientes");
+        botonClientes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonClientesActionPerformed(evt);
+            }
+        });
 
         botonProveedor.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         botonProveedor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/proveedor.png"))); // NOI18N
@@ -386,21 +427,21 @@ public class SistemaVista extends javax.swing.JFrame {
         jLabel16.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel16.setText("Razón Social:");
 
-        TableCliente.setModel(new javax.swing.table.DefaultTableModel(
+        tablaCliente.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Dni/Ruc", "Nombre", "Télefono", "Dirección", "Razón Social"
+                "Id", "Dni/Ruc", "Nombre", "Télefono", "Dirección", "Razón"
             }
         ));
-        jScrollPane2.setViewportView(TableCliente);
-        if (TableCliente.getColumnModel().getColumnCount() > 0) {
-            TableCliente.getColumnModel().getColumn(0).setPreferredWidth(50);
-            TableCliente.getColumnModel().getColumn(1).setPreferredWidth(100);
-            TableCliente.getColumnModel().getColumn(2).setPreferredWidth(50);
-            TableCliente.getColumnModel().getColumn(3).setPreferredWidth(80);
-            TableCliente.getColumnModel().getColumn(4).setPreferredWidth(80);
+        jScrollPane2.setViewportView(tablaCliente);
+        if (tablaCliente.getColumnModel().getColumnCount() > 0) {
+            tablaCliente.getColumnModel().getColumn(0).setPreferredWidth(50);
+            tablaCliente.getColumnModel().getColumn(1).setPreferredWidth(100);
+            tablaCliente.getColumnModel().getColumn(2).setPreferredWidth(50);
+            tablaCliente.getColumnModel().getColumn(3).setPreferredWidth(80);
+            tablaCliente.getColumnModel().getColumn(4).setPreferredWidth(80);
         }
 
         botonGuardarCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/GuardarTodo.png"))); // NOI18N
@@ -449,11 +490,11 @@ public class SistemaVista extends javax.swing.JFrame {
                             .addComponent(txtDireccionCliente)
                             .addComponent(txtRazonSocialCliente, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
                             .addComponent(txtDniCliente, javax.swing.GroupLayout.Alignment.TRAILING))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 18, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtIdCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                    .addComponent(txtIdCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 439, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(46, 46, 46))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -566,7 +607,7 @@ public class SistemaVista extends javax.swing.JFrame {
                         .addComponent(botonEditarProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                         .addComponent(botonEliminarProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 58, Short.MAX_VALUE)
                         .addComponent(botonNuevoProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -886,11 +927,16 @@ public class SistemaVista extends javax.swing.JFrame {
             cliente.setTelefono(Integer.parseInt(telefono));
             cliente.setDireccion(direccion);
             cliente.setRazonSocial(razonSocial);
-            
+
             clienteDao.registrarCliente(cliente);
             JOptionPane.showMessageDialog(null, "¡Cliente Registrado!");
         }
     }//GEN-LAST:event_botonGuardarClienteActionPerformed
+
+    private void botonClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonClientesActionPerformed
+        listarClientes();
+        jTabbedPane1.setSelectedIndex(1);
+    }//GEN-LAST:event_botonClientesActionPerformed
 
     /**
      * @param args the command line arguments
@@ -929,7 +975,6 @@ public class SistemaVista extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTable TableCliente;
     private javax.swing.JTable TableProductos;
     private javax.swing.JTable TableProveedor;
     private javax.swing.JTable TableVentaNueva;
@@ -1010,6 +1055,7 @@ public class SistemaVista extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField18;
     private javax.swing.JTextField jTextField19;
     private javax.swing.JLabel labelTotal;
+    private javax.swing.JTable tablaCliente;
     private javax.swing.JTextField txtCantidadProductos;
     private javax.swing.JTextField txtCantidadVenta;
     private javax.swing.JTextField txtCodigoProductos;
