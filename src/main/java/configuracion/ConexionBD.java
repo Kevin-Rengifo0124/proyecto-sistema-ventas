@@ -14,7 +14,7 @@ public class ConexionBD {
     /**
      * URL de conexión a la base de datos MySQL
      */
-    private static final String URL = "jdbc:mysql://localhost:3307/sistemaventa?serverTimezone=UTC";
+    private static final String URL = "jdbc:mysql://localhost:3306/sistemaventa?serverTimezone=UTC";
     /**
      * Nombre de usuario para la conexión a la base de datos
      */
