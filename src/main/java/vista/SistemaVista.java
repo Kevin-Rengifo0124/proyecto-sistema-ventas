@@ -6,11 +6,13 @@ package vista;
 
 import dao.ClienteDao;
 import dao.IADao;
+import dao.ProductoDao;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import modelo.Cliente;
 import modelo.Login;
+import modelo.Producto;
 
 /**
  *
@@ -27,18 +29,18 @@ public class SistemaVista extends javax.swing.JFrame {
         this.setLocationRelativeTo(this);
 
     }
-    
-    public SistemaVista(Login login){
+
+    public SistemaVista(Login login) {
         initComponents();
         this.setLocationRelativeTo(null);
         txtIdCliente.setVisible(false);
         txtIdVenta.setVisible(false);
-        
+
         if (login.getRol().equals("Asistente")) {
-            
+
             botonProductos.setEnabled(false);
             botonProveedor.setEnabled(false);
-            
+
         }
     }
 
@@ -213,6 +215,11 @@ public class SistemaVista extends javax.swing.JFrame {
         botonProductos.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         botonProductos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/producto.png"))); // NOI18N
         botonProductos.setText("Productos");
+        botonProductos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonProductosActionPerformed(evt);
+            }
+        });
 
         botonVentas.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         botonVentas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/compras.png"))); // NOI18N
@@ -575,6 +582,12 @@ public class SistemaVista extends javax.swing.JFrame {
         jLabel21.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel21.setText("Razón Social:");
 
+        txtRucProveedor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtRucProveedorActionPerformed(evt);
+            }
+        });
+
         TableProveedor.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -593,6 +606,11 @@ public class SistemaVista extends javax.swing.JFrame {
         }
 
         botonGuardarProveedor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/GuardarTodo.png"))); // NOI18N
+        botonGuardarProveedor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonGuardarProveedorActionPerformed(evt);
+            }
+        });
 
         botonEditarProveedor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Actualizar (2).png"))); // NOI18N
 
@@ -690,6 +708,12 @@ public class SistemaVista extends javax.swing.JFrame {
         jLabel26.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel26.setText("Proveedor:");
 
+        txtCodigoProductos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCodigoProductosActionPerformed(evt);
+            }
+        });
+
         comboProveedorProductos.setEditable(true);
 
         TableProductos.setModel(new javax.swing.table.DefaultTableModel(
@@ -710,13 +734,33 @@ public class SistemaVista extends javax.swing.JFrame {
         }
 
         botonGuardarProductos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/GuardarTodo.png"))); // NOI18N
+        botonGuardarProductos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonGuardarProductosActionPerformed(evt);
+            }
+        });
 
         botonEditarProductos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Actualizar (2).png"))); // NOI18N
+        botonEditarProductos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonEditarProductosActionPerformed(evt);
+            }
+        });
 
         botonEliminarProductos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/eliminar.png"))); // NOI18N
         botonEliminarProductos.setToolTipText("");
+        botonEliminarProductos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonEliminarProductosActionPerformed(evt);
+            }
+        });
 
         botonNuevoProducto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/nuevo.png"))); // NOI18N
+        botonNuevoProducto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonNuevoProductoActionPerformed(evt);
+            }
+        });
 
         botonExcelProductos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/excel.png"))); // NOI18N
 
@@ -956,7 +1000,7 @@ public class SistemaVista extends javax.swing.JFrame {
                     .addComponent(comboTipoAnalisis, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(botonAnalizar)
                     .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 770, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanelIALayout.setVerticalGroup(
             jPanelIALayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1045,34 +1089,181 @@ public class SistemaVista extends javax.swing.JFrame {
     }//GEN-LAST:event_botonEliminarActionPerformed
 
     private void botonAnalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAnalizarActionPerformed
-        
-        textAreaResultadoIA.setText("Analizando datos... Por favor espere...");
-    
-    // Obtener el tipo de análisis seleccionado
-    String tipoAnalisis = comboTipoAnalisis.getSelectedItem().toString();
-    
-    // Usar SwingWorker para no bloquear la interfaz durante el análisis
-    new javax.swing.SwingWorker<String, Void>() {
-        @Override
-        protected String doInBackground() throws Exception {
-            IADao iaDao = new IADao();
-            return iaDao.analizarDatosConIA(tipoAnalisis);
-        }
-        
-        @Override
-        protected void done() {
-            try {
-                String resultado = get();
-                textAreaResultadoIA.setText(resultado);
-            } catch (Exception e) {
-                textAreaResultadoIA.setText("Error al analizar datos: " + e.getMessage());
-            }
-        }
-    }.execute();
 
-        
+        textAreaResultadoIA.setText("Analizando datos... Por favor espere...");
+
+        // Obtener el tipo de análisis seleccionado
+        String tipoAnalisis = comboTipoAnalisis.getSelectedItem().toString();
+
+        // Usar SwingWorker para no bloquear la interfaz durante el análisis
+        new javax.swing.SwingWorker<String, Void>() {
+            @Override
+            protected String doInBackground() throws Exception {
+                IADao iaDao = new IADao();
+                return iaDao.analizarDatosConIA(tipoAnalisis);
+            }
+
+            @Override
+            protected void done() {
+                try {
+                    String resultado = get();
+                    textAreaResultadoIA.setText(resultado);
+                } catch (Exception e) {
+                    textAreaResultadoIA.setText("Error al analizar datos: " + e.getMessage());
+                }
+            }
+        }.execute();
+
+
     }//GEN-LAST:event_botonAnalizarActionPerformed
 
+    private void botonProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonProductosActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_botonProductosActionPerformed
+
+    private void txtRucProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtRucProveedorActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtRucProveedorActionPerformed
+
+    private void botonGuardarProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonGuardarProveedorActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_botonGuardarProveedorActionPerformed
+
+    private void txtCodigoProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodigoProductosActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCodigoProductosActionPerformed
+
+    private void botonGuardarProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonGuardarProductosActionPerformed
+
+        // Validar que todos los campos estén completos
+        if (txtCodigoProductos.getText().isEmpty() || txtDescripcionProductos.getText().isEmpty()
+                || txtCantidadProductos.getText().isEmpty() || txtPrecioProductos.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Todos los campos son requeridos");
+            return;
+        }
+
+        try {
+            // Obtener los valores de los campos
+            String codigo = txtCodigoProductos.getText().trim();
+            String nombre = txtDescripcionProductos.getText().trim();
+            int stock = Integer.parseInt(txtCantidadProductos.getText().trim());
+            double precio = Double.parseDouble(txtPrecioProductos.getText().trim());
+            String proveedor = comboProveedorProductos.getSelectedItem().toString();
+
+            // Crear nuevo producto
+            Producto producto = new Producto();
+            producto.setCodigo(codigo);
+            producto.setNombre(nombre);
+            producto.setStock(stock);
+            producto.setPrecio(precio);
+            producto.setProveedor(proveedor);
+
+            // Guardar en base de datos usando ProductoDao
+            ProductoDao productoDao = new ProductoDao();
+            if (productoDao.registrarProducto(producto)) {
+                JOptionPane.showMessageDialog(null, "Producto registrado con éxito");
+                limpiarCamposProducto();
+                listarProductos(); // Método para actualizar la tabla de productos
+            } else {
+                JOptionPane.showMessageDialog(null, "Error al registrar el producto");
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Error en formato numérico. Verifique cantidad y precio");
+        }
+
+
+    }//GEN-LAST:event_botonGuardarProductosActionPerformed
+
+    private void botonEditarProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEditarProductosActionPerformed
+     
+        if (botonIdProductos.getText().isEmpty()) {
+        JOptionPane.showMessageDialog(null, "Seleccione un producto para editar");
+        return;
+    }
+    
+    try {
+        int id = Integer.parseInt(botonIdProductos.getText());
+        String codigo = txtCodigoProductos.getText().trim();
+        String nombre = txtDescripcionProductos.getText().trim();
+        int stock = Integer.parseInt(txtCantidadProductos.getText().trim());
+        double precio = Double.parseDouble(txtPrecioProductos.getText().trim());
+        String proveedor = comboProveedorProductos.getSelectedItem().toString();
+        
+        // Crear producto con datos actualizados
+        Producto producto = new Producto();
+        producto.setId(id);
+        producto.setCodigo(codigo);
+        producto.setNombre(nombre);
+        producto.setStock(stock);
+        producto.setPrecio(precio);
+        producto.setProveedor(proveedor);
+        
+        // Actualizar en base de datos
+        ProductoDao productoDao = new ProductoDao();
+        if (productoDao.actualizarProducto(producto)) {
+            JOptionPane.showMessageDialog(null, "Producto actualizado con éxito");
+            limpiarCamposProducto();
+            listarProductos(); // Actualizar la tabla
+        } else {
+            JOptionPane.showMessageDialog(null, "Error al actualizar el producto");
+        }
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(null, "Error en formato numérico. Verifique cantidad y precio");
+    }
+        
+    }//GEN-LAST:event_botonEditarProductosActionPerformed
+
+    private void botonEliminarProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEliminarProductosActionPerformed
+       
+        
+        if (botonIdProductos.getText().isEmpty()) {
+        JOptionPane.showMessageDialog(null, "Seleccione un producto para eliminar");
+        return;
+    }
+    
+    int confirmacion = JOptionPane.showConfirmDialog(null, 
+            "¿Está seguro de eliminar este producto?", 
+            "Confirmar eliminación", 
+            JOptionPane.YES_NO_OPTION);
+            
+    if (confirmacion == JOptionPane.YES_OPTION) {
+        try {
+            int id = Integer.parseInt(botonIdProductos.getText());
+            
+            ProductoDao productoDao = new ProductoDao();
+            if (productoDao.eliminarProducto(id)) {
+                JOptionPane.showMessageDialog(null, "Producto eliminado con éxito");
+                limpiarCamposProducto();
+                listarProductos(); // Actualizar la tabla
+            } else {
+                JOptionPane.showMessageDialog(null, "Error al eliminar el producto");
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Error al obtener ID del producto");
+        }
+    }
+    }//GEN-LAST:event_botonEliminarProductosActionPerformed
+
+    private void botonNuevoProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonNuevoProductoActionPerformed
+        limpiarCamposProducto();
+    }//GEN-LAST:event_botonNuevoProductoActionPerformed
+
+    
+    private void limpiarCamposProducto() {
+    txtCodigoProductos.setText("");
+    txtDescripcionProductos.setText("");
+    txtCantidadProductos.setText("");
+    txtPrecioProductos.setText("");
+    
+    // Verificar que el combo tenga elementos antes de seleccionar
+    if (comboProveedorProductos.getItemCount() > 0) {
+        comboProveedorProductos.setSelectedIndex(0);
+    }
+    
+    botonIdProductos.setText("");
+    txtCodigoProductos.requestFocus(); // Para colocar el cursor en el primer campo
+}
+   
     private void limpiarCampos() {
         txtIdCliente.setText("");
         txtDniCliente.setText("");
@@ -1082,6 +1273,37 @@ public class SistemaVista extends javax.swing.JFrame {
         txtRazonSocialCliente.setText("");
 
     }
+    
+    
+    
+
+
+    private void listarProductos() {
+        ProductoDao productoDao = new ProductoDao();
+        List<Producto> lista = productoDao.listarProductos();
+        DefaultTableModel modelo = (DefaultTableModel) TableProductos.getModel();
+
+        // Limpiar tabla
+        for (int i = 0; i < modelo.getRowCount(); i++) {
+            modelo.removeRow(i);
+            i = i - 1;
+        }
+
+        // Agregar filas con datos
+        Object[] objeto = new Object[5];
+        for (int i = 0; i < lista.size(); i++) {
+            objeto[0] = lista.get(i).getCodigo();
+            objeto[1] = lista.get(i).getNombre();
+            objeto[2] = lista.get(i).getStock();
+            objeto[3] = lista.get(i).getPrecio();
+            objeto[4] = lista.get(i).getProveedor();
+            modelo.addRow(objeto);
+        }
+
+        TableProductos.setModel(modelo);
+    }
+    
+    
 
     /**
      * @param args the command line arguments
