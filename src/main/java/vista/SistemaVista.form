@@ -122,6 +122,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Productos"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botonProductosActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="botonVentas">
           <Properties>
@@ -905,6 +908,9 @@
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="txtRucProveedor">
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtRucProveedorActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JTextField" name="txtNombreProveedor">
             </Component>
@@ -974,6 +980,9 @@
                   <Image iconType="3" name="/imagenes/GuardarTodo.png"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botonGuardarProveedorActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="botonEditarProveedor">
               <Properties>
@@ -1147,6 +1156,9 @@
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="txtCodigoProductos">
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtCodigoProductosActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JTextField" name="txtDescripcionProductos">
             </Component>
@@ -1225,6 +1237,9 @@
                   <Image iconType="3" name="/imagenes/GuardarTodo.png"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botonGuardarProductosActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="botonEditarProductos">
               <Properties>
@@ -1232,6 +1247,9 @@
                   <Image iconType="3" name="/imagenes/Actualizar (2).png"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botonEditarProductosActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="botonEliminarProductos">
               <Properties>
@@ -1240,6 +1258,9 @@
                 </Property>
                 <Property name="toolTipText" type="java.lang.String" value=""/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botonEliminarProductosActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="botonNuevoProducto">
               <Properties>
@@ -1247,6 +1268,9 @@
                   <Image iconType="3" name="/imagenes/nuevo.png"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botonNuevoProductoActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="botonExcelProductos">
               <Properties>
@@ -1535,7 +1559,7 @@
                           <Component id="botonAnalizar" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="jScrollPane6" alignment="0" min="-2" pref="770" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="15" max="32767" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
