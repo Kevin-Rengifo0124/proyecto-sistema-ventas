@@ -12,36 +12,39 @@ import modelo.Login;
  *
  * @author kevinrengifo
  */
-public class LoginVista extends javax.swing.JFrame {
+public class RegistroVista extends javax.swing.JFrame {
 
     /**
      * Creates new form Login
      */
-    public LoginVista() {
+    public RegistroVista() {
         initComponents();
         this.setLocationRelativeTo(this);
 
     }
 
     public void validar() {
-        String correo = txtCorreo.getText().trim();
-        String clave = String.valueOf(txtClave.getPassword()).trim();
-        
-        if (correo.isEmpty() || clave.isEmpty()) {
+        String correo = txtCorreoRegistro.getText().trim();
+        String clave = String.valueOf(txtContraseniaRegistro.getPassword()).trim();
+        String nombre = txtNombreRegistro.getText();
+        String rol = txtComboRoles.getSelectedItem().toString();
+
+        if (correo.isEmpty() || clave.isEmpty() || nombre.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Debe ingresar correo y contraseña");
         } else {
             Login login = new Login();
             LoginDao loginDao = new LoginDao();
 
-            login = loginDao.autenticarUsuario(correo, clave);
+            login.setNombre(nombre);
+            login.setCorreo(correo);
+            login.setClave(clave);
+            login.setRol(rol);
+            loginDao.registrarUsuarios(login);
 
-            if (login.getCorreo() != null && login.getClave() != null) {
-                SistemaVista sistemaVista = new SistemaVista(login);
-                sistemaVista.setVisible(true);
-                dispose();
-            } else {
-                JOptionPane.showMessageDialog(null, "Correo o contraseña incorrecta");
-            }
+            LoginVista loginVista = new LoginVista();
+            loginVista.setVisible(true);
+            dispose();
+
         }
 
     }
@@ -58,10 +61,14 @@ public class LoginVista extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        txtCorreo = new javax.swing.JTextField();
+        txtCorreoRegistro = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        txtClave = new javax.swing.JPasswordField();
+        txtContraseniaRegistro = new javax.swing.JPasswordField();
         botonIniciar = new javax.swing.JButton();
+        jLabel11 = new javax.swing.JLabel();
+        txtNombreRegistro = new javax.swing.JTextField();
+        jLabel12 = new javax.swing.JLabel();
+        txtComboRoles = new javax.swing.JComboBox<>();
         jPanel1 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
@@ -83,15 +90,15 @@ public class LoginVista extends javax.swing.JFrame {
         jLabel3.setForeground(new java.awt.Color(4, 58, 106));
         jLabel3.setText("Correo Electrónico");
 
-        txtCorreo.setBackground(new java.awt.Color(255, 255, 255));
-        txtCorreo.setForeground(new java.awt.Color(102, 102, 102));
+        txtCorreoRegistro.setBackground(new java.awt.Color(255, 255, 255));
+        txtCorreoRegistro.setForeground(new java.awt.Color(102, 102, 102));
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(4, 58, 106));
         jLabel4.setText("Contraseña");
 
-        txtClave.setBackground(new java.awt.Color(255, 255, 255));
-        txtClave.setForeground(new java.awt.Color(102, 102, 102));
+        txtContraseniaRegistro.setBackground(new java.awt.Color(255, 255, 255));
+        txtContraseniaRegistro.setForeground(new java.awt.Color(102, 102, 102));
 
         botonIniciar.setBackground(new java.awt.Color(4, 58, 106));
         botonIniciar.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
@@ -104,47 +111,72 @@ public class LoginVista extends javax.swing.JFrame {
             }
         });
 
+        jLabel11.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel11.setForeground(new java.awt.Color(4, 58, 106));
+        jLabel11.setText("Nombre");
+
+        txtNombreRegistro.setBackground(new java.awt.Color(255, 255, 255));
+
+        jLabel12.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel12.setForeground(new java.awt.Color(4, 58, 106));
+        jLabel12.setText("Rol");
+
+        txtComboRoles.setBackground(new java.awt.Color(255, 255, 255));
+        txtComboRoles.setForeground(new java.awt.Color(51, 51, 51));
+        txtComboRoles.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "...................", "Administrador", "Asistente", " " }));
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel2)
+                .addContainerGap(92, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(botonIniciar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(78, 78, 78))
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(23, 23, 23)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel11)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel3)
+                    .addComponent(txtCorreoRegistro)
+                    .addComponent(txtContraseniaRegistro, javax.swing.GroupLayout.DEFAULT_SIZE, 226, Short.MAX_VALUE)
+                    .addComponent(txtNombreRegistro)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(23, 23, 23)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel3)
-                            .addComponent(txtCorreo)
-                            .addComponent(txtClave, javax.swing.GroupLayout.DEFAULT_SIZE, 226, Short.MAX_VALUE)))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(86, 86, 86)
-                        .addComponent(botonIniciar, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(21, Short.MAX_VALUE))
+                        .addGap(6, 6, 6)
+                        .addComponent(jLabel12))
+                    .addComponent(txtComboRoles, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(22, 22, 22)
                 .addComponent(jLabel2)
-                .addGap(29, 29, 29)
+                .addGap(18, 18, 18)
                 .addComponent(jLabel3)
-                .addGap(18, 18, 18)
-                .addComponent(txtCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtCorreoRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel4)
-                .addGap(18, 18, 18)
-                .addComponent(txtClave, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtContraseniaRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel11)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtNombreRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel12)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtComboRoles, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
                 .addComponent(botonIniciar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(49, Short.MAX_VALUE))
+                .addGap(16, 16, 16))
         );
 
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 30, 270, 370));
+        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 10, 270, 400));
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setPreferredSize(new java.awt.Dimension(310, 430));
@@ -247,14 +279,18 @@ public class LoginVista extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(LoginVista.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(RegistroVista.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(LoginVista.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(RegistroVista.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(LoginVista.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(RegistroVista.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(LoginVista.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(RegistroVista.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -263,7 +299,7 @@ public class LoginVista extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new LoginVista().setVisible(true);
+                new RegistroVista().setVisible(true);
             }
         });
     }
@@ -272,6 +308,8 @@ public class LoginVista extends javax.swing.JFrame {
     private javax.swing.JButton botonIniciar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -282,7 +320,9 @@ public class LoginVista extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPasswordField txtClave;
-    private javax.swing.JTextField txtCorreo;
+    private javax.swing.JComboBox<String> txtComboRoles;
+    private javax.swing.JPasswordField txtContraseniaRegistro;
+    private javax.swing.JTextField txtCorreoRegistro;
+    private javax.swing.JTextField txtNombreRegistro;
     // End of variables declaration//GEN-END:variables
 }

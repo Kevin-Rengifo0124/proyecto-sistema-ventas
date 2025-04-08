@@ -1,6 +1,8 @@
 vista/SistemaVista$3.class
 vista/LoginVista$2.class
+vista/RegistroVista.class
 vista/LoginVista.class
+vista/RegistroVista$2.class
 configuracion/ConexionBD.class
 com/mycompany/proyectosistemadeventas/ProyectoSistemaDeVentas.class
 vista/SistemaVista$5.class
@@ -12,4 +14,5 @@ modelo/Login.class
 vista/SistemaVista$4.class
 vista/LoginVista$1.class
 dao/ClienteDao.class
+vista/RegistroVista$1.class
 vista/SistemaVista$1.class

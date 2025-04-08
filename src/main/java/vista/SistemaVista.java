@@ -9,6 +9,7 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import modelo.Cliente;
+import modelo.Login;
 
 /**
  *
@@ -24,6 +25,20 @@ public class SistemaVista extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(this);
 
+    }
+    
+    public SistemaVista(Login login){
+        initComponents();
+        this.setLocationRelativeTo(null);
+        txtIdCliente.setVisible(false);
+        txtIdVenta.setVisible(false);
+        
+        if (login.getRol().equals("Asistente")) {
+            
+            botonProductos.setEnabled(false);
+            botonProveedor.setEnabled(false);
+            
+        }
     }
 
     /**
@@ -932,6 +947,7 @@ public class SistemaVista extends javax.swing.JFrame {
 
             clienteDao.registrarCliente(cliente);
             limpiarTabla();
+            limpiarCampos();
             listarClientes();
             JOptionPane.showMessageDialog(null, "¡Cliente Registrado!");
         }
@@ -963,13 +979,14 @@ public class SistemaVista extends javax.swing.JFrame {
 
     private void botonEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEliminarActionPerformed
         if (txtIdCliente.getText().equals("")) {
-            JOptionPane.showMessageDialog(null, "");
+            JOptionPane.showMessageDialog(null, "Por favor, seleccione un cliente para eliminar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
         } else {
             int pregunta = JOptionPane.showConfirmDialog(null, "¿Esta seguro de eliminar?");
             if (pregunta == 0) {
                 int id = Integer.parseInt(txtIdCliente.getText());
                 clienteDao.eliminarCliente(id);
                 limpiarTabla();
+                limpiarCampos();
                 listarClientes();
             }
 

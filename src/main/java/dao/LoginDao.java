@@ -43,6 +43,7 @@ public class LoginDao {
                 datosUsuario.setNombre(resultadoConsulta.getString("nombre"));
                 datosUsuario.setCorreo(resultadoConsulta.getString("correo"));
                 datosUsuario.setClave(resultadoConsulta.getString("clave"));
+                datosUsuario.setRol(resultadoConsulta.getString("rol"));
             }
         } catch (SQLException excepcion) {
             System.err.println("Error de autenticación: " + excepcion.getMessage());
@@ -51,6 +52,25 @@ public class LoginDao {
         }
 
         return datosUsuario;
+    }
+
+    public boolean registrarUsuarios(Login login) {
+        String registrar = "INSERT INTO usuarios (nombre, correo, clave, rol) VALUES (?,?,?,?)";
+
+        try {
+            conexion = conexionBD.getConexion();
+            sentenciaPreparada = conexion.prepareStatement(registrar);
+            sentenciaPreparada.setString(1, login.getNombre());
+            sentenciaPreparada.setString(2, login.getCorreo());
+            sentenciaPreparada.setString(3, login.getClave());
+            sentenciaPreparada.setString(4, login.getRol());
+            sentenciaPreparada.execute();
+            return true;
+        } catch (Exception excepcion) {
+            System.out.println(excepcion.toString());
+            return false;
+        }
+
     }
 
     /**
