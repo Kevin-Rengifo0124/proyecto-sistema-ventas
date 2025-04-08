@@ -5,6 +5,7 @@
 package vista;
 
 import dao.ClienteDao;
+import dao.IADao;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -180,6 +181,12 @@ public class SistemaVista extends javax.swing.JFrame {
         jTextField19 = new javax.swing.JTextField();
         jButton15 = new javax.swing.JButton();
         jLabel32 = new javax.swing.JLabel();
+        jPanelIA = new javax.swing.JPanel();
+        jLabel11 = new javax.swing.JLabel();
+        comboTipoAnalisis = new javax.swing.JComboBox<>();
+        botonAnalizar = new javax.swing.JButton();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        textAreaResultadoIA = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -328,7 +335,7 @@ public class SistemaVista extends javax.swing.JFrame {
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel4)
-                                .addGap(0, 123, Short.MAX_VALUE))
+                                .addGap(0, 145, Short.MAX_VALUE))
                             .addComponent(txtDescripcionVenta))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -623,7 +630,7 @@ public class SistemaVista extends javax.swing.JFrame {
                         .addComponent(botonEditarProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                         .addComponent(botonEliminarProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 58, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 77, Short.MAX_VALUE)
                         .addComponent(botonNuevoProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -748,7 +755,7 @@ public class SistemaVista extends javax.swing.JFrame {
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(botonIdProductos, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(8, Short.MAX_VALUE))
+                .addContainerGap(29, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -818,7 +825,7 @@ public class SistemaVista extends javax.swing.JFrame {
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addGap(22, 22, 22)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 742, Short.MAX_VALUE)
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 763, Short.MAX_VALUE)
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addComponent(botonPdfVentas, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
@@ -887,7 +894,7 @@ public class SistemaVista extends javax.swing.JFrame {
                             .addComponent(jTextField19, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jTextField16, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel28))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 107, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 128, Short.MAX_VALUE)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel29)
                     .addComponent(jTextField17, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -922,6 +929,50 @@ public class SistemaVista extends javax.swing.JFrame {
         );
 
         jTabbedPane1.addTab("tab6", jPanel7);
+
+        jLabel11.setText("Análisis de datos con IA");
+
+        comboTipoAnalisis.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ventas", "Clientes", "Productos", "General" }));
+
+        botonAnalizar.setText("Analizar datos");
+        botonAnalizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonAnalizarActionPerformed(evt);
+            }
+        });
+
+        textAreaResultadoIA.setColumns(20);
+        textAreaResultadoIA.setRows(5);
+        jScrollPane6.setViewportView(textAreaResultadoIA);
+
+        javax.swing.GroupLayout jPanelIALayout = new javax.swing.GroupLayout(jPanelIA);
+        jPanelIA.setLayout(jPanelIALayout);
+        jPanelIALayout.setHorizontalGroup(
+            jPanelIALayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelIALayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanelIALayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(comboTipoAnalisis, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(botonAnalizar)
+                    .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 770, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(15, Short.MAX_VALUE))
+        );
+        jPanelIALayout.setVerticalGroup(
+            jPanelIALayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelIALayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(39, 39, 39)
+                .addComponent(comboTipoAnalisis, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(32, 32, 32)
+                .addComponent(botonAnalizar)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(89, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("tab7", jPanelIA);
 
         getContentPane().add(jTabbedPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 180, 770, 450));
 
@@ -993,6 +1044,35 @@ public class SistemaVista extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_botonEliminarActionPerformed
 
+    private void botonAnalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAnalizarActionPerformed
+        
+        textAreaResultadoIA.setText("Analizando datos... Por favor espere...");
+    
+    // Obtener el tipo de análisis seleccionado
+    String tipoAnalisis = comboTipoAnalisis.getSelectedItem().toString();
+    
+    // Usar SwingWorker para no bloquear la interfaz durante el análisis
+    new javax.swing.SwingWorker<String, Void>() {
+        @Override
+        protected String doInBackground() throws Exception {
+            IADao iaDao = new IADao();
+            return iaDao.analizarDatosConIA(tipoAnalisis);
+        }
+        
+        @Override
+        protected void done() {
+            try {
+                String resultado = get();
+                textAreaResultadoIA.setText(resultado);
+            } catch (Exception e) {
+                textAreaResultadoIA.setText("Error al analizar datos: " + e.getMessage());
+            }
+        }
+    }.execute();
+
+        
+    }//GEN-LAST:event_botonAnalizarActionPerformed
+
     private void limpiarCampos() {
         txtIdCliente.setText("");
         txtDniCliente.setText("");
@@ -1045,6 +1125,7 @@ public class SistemaVista extends javax.swing.JFrame {
     private javax.swing.JTable TableVentaNueva;
     private javax.swing.JTable TableVentas;
     private javax.swing.JButton botoNuevoCliente;
+    private javax.swing.JButton botonAnalizar;
     private javax.swing.JButton botonClientes;
     private javax.swing.JButton botonConfiguracion;
     private javax.swing.JButton botonEditarCliente;
@@ -1069,9 +1150,11 @@ public class SistemaVista extends javax.swing.JFrame {
     private javax.swing.JButton botonProveedor;
     private javax.swing.JButton botonVentas;
     private javax.swing.JComboBox<String> comboProveedorProductos;
+    private javax.swing.JComboBox<String> comboTipoAnalisis;
     private javax.swing.JButton jButton15;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
@@ -1108,11 +1191,13 @@ public class SistemaVista extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanelIA;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTextField jTextField15;
     private javax.swing.JTextField jTextField16;
@@ -1121,6 +1206,7 @@ public class SistemaVista extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField19;
     private javax.swing.JLabel labelTotal;
     private javax.swing.JTable tablaCliente;
+    private javax.swing.JTextArea textAreaResultadoIA;
     private javax.swing.JTextField txtCantidadProductos;
     private javax.swing.JTextField txtCantidadVenta;
     private javax.swing.JTextField txtCodigoProductos;
