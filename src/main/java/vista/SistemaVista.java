@@ -6,11 +6,13 @@ package vista;
 
 import dao.ClienteDao;
 import dao.IADao;
+import dao.ProveedorDao;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import modelo.Cliente;
 import modelo.Login;
+import modelo.Proveedor;
 
 /**
  *
@@ -20,6 +22,10 @@ public class SistemaVista extends javax.swing.JFrame {
 
     Cliente cliente = new Cliente();
     ClienteDao clienteDao = new ClienteDao();
+
+    Proveedor proveedor = new Proveedor();
+    ProveedorDao proveedorDao = new ProveedorDao();
+
     DefaultTableModel tablaModelo = new DefaultTableModel();
 
     public SistemaVista() {
@@ -62,6 +68,27 @@ public class SistemaVista extends javax.swing.JFrame {
         }
 
         tablaCliente.setModel(tablaModelo);
+
+    }
+
+    public void listarProveedores() {
+        List<Proveedor> listarProveedor = proveedorDao.listarProveedores();
+        tablaModelo = (DefaultTableModel) tablaProveedor.getModel();
+
+        Object[] objectos = new Object[6];
+
+        for (int i = 0; i < listarProveedor.size(); i++) {
+            objectos[0] = listarProveedor.get(i).getId();
+            objectos[1] = listarProveedor.get(i).getRuc();
+            objectos[2] = listarProveedor.get(i).getNombre();
+            objectos[3] = listarProveedor.get(i).getTelefono();
+            objectos[4] = listarProveedor.get(i).getDireccion();
+            objectos[5] = listarProveedor.get(i).getRazonSocial();
+
+            tablaModelo.addRow(objectos);
+        }
+
+        tablaProveedor.setModel(tablaModelo);
 
     }
 
@@ -137,11 +164,12 @@ public class SistemaVista extends javax.swing.JFrame {
         txtDireccionProveedor = new javax.swing.JTextField();
         txtRazonSocialProveedor = new javax.swing.JTextField();
         jScrollPane3 = new javax.swing.JScrollPane();
-        TableProveedor = new javax.swing.JTable();
+        tablaProveedor = new javax.swing.JTable();
         botonGuardarProveedor = new javax.swing.JButton();
         botonEditarProveedor = new javax.swing.JButton();
         botonEliminarProveedor = new javax.swing.JButton();
         botonNuevoProveedor = new javax.swing.JButton();
+        txtIdProveedor = new javax.swing.JTextField();
         jPanel5 = new javax.swing.JPanel();
         jLabel22 = new javax.swing.JLabel();
         jLabel23 = new javax.swing.JLabel();
@@ -207,15 +235,15 @@ public class SistemaVista extends javax.swing.JFrame {
         botonProveedor.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         botonProveedor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/proveedor.png"))); // NOI18N
         botonProveedor.setText("Proveedor");
+        botonProveedor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonProveedorActionPerformed(evt);
+            }
+        });
 
         botonProductos.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         botonProductos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/producto.png"))); // NOI18N
         botonProductos.setText("Productos");
-        botonProductos.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botonProductosActionPerformed(evt);
-            }
-        });
 
         botonVentas.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         botonVentas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/compras.png"))); // NOI18N
@@ -491,6 +519,11 @@ public class SistemaVista extends javax.swing.JFrame {
 
         botoNuevoCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/nuevo.png"))); // NOI18N
         botoNuevoCliente.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        botoNuevoCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botoNuevoClienteActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -583,27 +616,26 @@ public class SistemaVista extends javax.swing.JFrame {
         jLabel21.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel21.setText("Razón Social:");
 
-        txtRucProveedor.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtRucProveedorActionPerformed(evt);
-            }
-        });
-
-        TableProveedor.setModel(new javax.swing.table.DefaultTableModel(
+        tablaProveedor.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Ruc", "Nombre", "Télefono", "Dirección", "Razón Social"
+                "Id", "Ruc", "Nombre", "Telefono", "Direccion", "Razón"
             }
         ));
-        jScrollPane3.setViewportView(TableProveedor);
-        if (TableProveedor.getColumnModel().getColumnCount() > 0) {
-            TableProveedor.getColumnModel().getColumn(0).setPreferredWidth(40);
-            TableProveedor.getColumnModel().getColumn(1).setPreferredWidth(100);
-            TableProveedor.getColumnModel().getColumn(2).setPreferredWidth(50);
-            TableProveedor.getColumnModel().getColumn(3).setPreferredWidth(80);
-            TableProveedor.getColumnModel().getColumn(4).setPreferredWidth(70);
+        tablaProveedor.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaProveedorMouseClicked(evt);
+            }
+        });
+        jScrollPane3.setViewportView(tablaProveedor);
+        if (tablaProveedor.getColumnModel().getColumnCount() > 0) {
+            tablaProveedor.getColumnModel().getColumn(0).setPreferredWidth(40);
+            tablaProveedor.getColumnModel().getColumn(1).setPreferredWidth(100);
+            tablaProveedor.getColumnModel().getColumn(2).setPreferredWidth(50);
+            tablaProveedor.getColumnModel().getColumn(3).setPreferredWidth(80);
+            tablaProveedor.getColumnModel().getColumn(4).setPreferredWidth(70);
         }
 
         botonGuardarProveedor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/GuardarTodo.png"))); // NOI18N
@@ -614,10 +646,25 @@ public class SistemaVista extends javax.swing.JFrame {
         });
 
         botonEditarProveedor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Actualizar (2).png"))); // NOI18N
+        botonEditarProveedor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonEditarProveedorActionPerformed(evt);
+            }
+        });
 
         botonEliminarProveedor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/eliminar.png"))); // NOI18N
+        botonEliminarProveedor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonEliminarProveedorActionPerformed(evt);
+            }
+        });
 
         botonNuevoProveedor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/nuevo.png"))); // NOI18N
+        botonNuevoProveedor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonNuevoProveedorActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -637,11 +684,14 @@ public class SistemaVista extends javax.swing.JFrame {
                                     .addComponent(jLabel21))
                                 .addGap(27, 27, 27)
                                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(txtRucProveedor)
                                     .addComponent(txtNombreProveedor)
                                     .addComponent(txtTelefonoProveedor)
                                     .addComponent(txtDireccionProveedor)
-                                    .addComponent(txtRazonSocialProveedor, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)))
+                                    .addComponent(txtRazonSocialProveedor, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
+                                    .addGroup(jPanel4Layout.createSequentialGroup()
+                                        .addComponent(txtRucProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(txtIdProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE))))
                             .addComponent(botonGuardarProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
@@ -663,7 +713,8 @@ public class SistemaVista extends javax.swing.JFrame {
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel17)
-                            .addComponent(txtRucProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtRucProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtIdProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel18)
@@ -708,12 +759,6 @@ public class SistemaVista extends javax.swing.JFrame {
 
         jLabel26.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel26.setText("Proveedor:");
-
-        txtCodigoProductos.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtCodigoProductosActionPerformed(evt);
-            }
-        });
 
         comboProveedorProductos.setEditable(true);
 
@@ -1023,6 +1068,12 @@ public class SistemaVista extends javax.swing.JFrame {
         }
     }
 
+    private void limpiarTablaProveedores() {
+        for (int i = 0; i < tablaModelo.getRowCount(); i++) {
+            tablaModelo.removeRow(i);
+            i = i - 1;
+        }
+    }
 
     private void botonAnalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAnalizarActionPerformed
 
@@ -1053,22 +1104,6 @@ public class SistemaVista extends javax.swing.JFrame {
 
     }//GEN-LAST:event_botonAnalizarActionPerformed
 
-    private void botonProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonProductosActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_botonProductosActionPerformed
-
-    private void txtRucProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtRucProveedorActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtRucProveedorActionPerformed
-
-    private void botonGuardarProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonGuardarProveedorActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_botonGuardarProveedorActionPerformed
-
-    private void txtCodigoProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodigoProductosActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtCodigoProductosActionPerformed
-
     private void botonEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEliminarActionPerformed
         if (txtIdCliente.getText().equals("")) {
             JOptionPane.showMessageDialog(null, "Por favor, seleccione un cliente para eliminar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
@@ -1076,12 +1111,17 @@ public class SistemaVista extends javax.swing.JFrame {
             int pregunta = JOptionPane.showConfirmDialog(null, "¿Esta seguro de eliminar?");
             if (pregunta == 0) {
                 int id = Integer.parseInt(txtIdCliente.getText());
-                clienteDao.eliminarCliente(id);
-                limpiarTablaClientes();
-                limpiarCamposCliente();
-                listarClientes();
-            }
+                boolean resultado = clienteDao.eliminarCliente(id);
 
+                if (resultado) {
+                    JOptionPane.showMessageDialog(null, "Cliente eliminado correctamente", "Información", JOptionPane.INFORMATION_MESSAGE);
+                    limpiarTablaClientes();
+                    limpiarCamposCliente();
+                    listarClientes();
+                } else {
+                    JOptionPane.showMessageDialog(null, "Error al eliminar el cliente", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
         }
     }//GEN-LAST:event_botonEliminarActionPerformed
 
@@ -1091,29 +1131,34 @@ public class SistemaVista extends javax.swing.JFrame {
         String telefono = txtTelefonoCliente.getText().trim();
         String direccion = txtDireccionCliente.getText().trim();
         String razonSocial = txtRazonSocialCliente.getText().trim();
-
         if (txtIdCliente.getText().equals("")) {
             JOptionPane.showMessageDialog(null, "Seleccione una fila para editarla");
         } else {
-
             if (!txtDniCliente.getText().equals("") || !txtNombreCliente.getText().equals("") || !txtTelefonoCliente.getText().equals("")) {
-                cliente.setId(Integer.parseInt(txtIdCliente.getText())); // Add this line
+                cliente.setId(Integer.parseInt(txtIdCliente.getText()));
                 cliente.setDni(Integer.parseInt(dni));
                 cliente.setNombre(nombre);
                 cliente.setTelefono(Integer.parseInt(telefono));
                 cliente.setDireccion(direccion);
                 cliente.setRazonSocial(razonSocial);
-                clienteDao.modificarCliente(cliente);
-                limpiarTablaClientes();
-                limpiarCamposCliente();
-                listarClientes();
+
+                boolean resultado = clienteDao.modificarCliente(cliente);
+                if (resultado) {
+                    JOptionPane.showMessageDialog(null, "Cliente actualizado");
+                    limpiarTablaClientes();
+                    limpiarCamposCliente();
+                    listarClientes();
+                } else {
+                    JOptionPane.showMessageDialog(null, "Error al actualizar el cliente");
+                }
             } else {
-                JOptionPane.showMessageDialog(null, "Los campos estan vacios");
+                JOptionPane.showMessageDialog(null, "Los campos están vacíos");
             }
         }
     }//GEN-LAST:event_botonEditarClienteActionPerformed
 
     private void botonGuardarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonGuardarClienteActionPerformed
+
         String dni = txtDniCliente.getText().trim();
         String nombre = txtNombreCliente.getText().trim();
         String telefono = txtTelefonoCliente.getText().trim();
@@ -1135,6 +1180,7 @@ public class SistemaVista extends javax.swing.JFrame {
             listarClientes();
             JOptionPane.showMessageDialog(null, "¡Cliente Registrado!");
         }
+
     }//GEN-LAST:event_botonGuardarClienteActionPerformed
 
     private void tablaClienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaClienteMouseClicked
@@ -1150,6 +1196,106 @@ public class SistemaVista extends javax.swing.JFrame {
     private void botonNuevoProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonNuevoProductoActionPerformed
         limpiarCamposProducto();
     }//GEN-LAST:event_botonNuevoProductoActionPerformed
+
+    private void botoNuevoClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botoNuevoClienteActionPerformed
+        limpiarCamposCliente();
+    }//GEN-LAST:event_botoNuevoClienteActionPerformed
+
+    private void botonGuardarProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonGuardarProveedorActionPerformed
+        String ruc = txtRucProveedor.getText().trim();
+        String nombre = txtNombreProveedor.getText().trim();
+        String telefono = txtTelefonoProveedor.getText().trim();
+        String direccion = txtDireccionProveedor.getText().trim();
+        String razonSocial = txtRazonSocialProveedor.getText().trim();
+
+        if (ruc.isEmpty() || nombre.isEmpty() || telefono.isEmpty() || direccion.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Por favor completa todos los campos.");
+        } else {
+            proveedor.setRuc(Integer.parseInt(ruc));
+            proveedor.setNombre(nombre);
+            proveedor.setTelefono(Integer.parseInt(telefono));
+            proveedor.setDireccion(direccion);
+            proveedor.setRazonSocial(razonSocial);
+
+            proveedorDao.registrarProveedor(proveedor);
+            limpiarTablaProveedores();
+            limpiarCamposProveedor();
+            listarProveedores();
+            JOptionPane.showMessageDialog(null, "¡Proveedor Registrado!");
+        }
+    }//GEN-LAST:event_botonGuardarProveedorActionPerformed
+
+    private void botonProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonProveedorActionPerformed
+        limpiarTablaClientes();
+        listarProveedores(); // Changed from listarClientes()
+        jTabbedPane1.setSelectedIndex(2);
+    }//GEN-LAST:event_botonProveedorActionPerformed
+
+    private void tablaProveedorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaProveedorMouseClicked
+        int fila = tablaProveedor.rowAtPoint(evt.getPoint());
+        txtIdProveedor.setText(tablaProveedor.getValueAt(fila, 0).toString());
+        txtRucProveedor.setText(tablaProveedor.getValueAt(fila, 1).toString());
+        txtNombreProveedor.setText(tablaProveedor.getValueAt(fila, 2).toString());
+        txtTelefonoProveedor.setText(tablaProveedor.getValueAt(fila, 3).toString());
+        txtDireccionProveedor.setText(tablaProveedor.getValueAt(fila, 4).toString());
+        txtRazonSocialProveedor.setText(tablaProveedor.getValueAt(fila, 5).toString());
+    }//GEN-LAST:event_tablaProveedorMouseClicked
+
+    private void botonEliminarProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEliminarProveedorActionPerformed
+        if (txtIdProveedor.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "Por favor, seleccione un proveedor para eliminar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+        } else {
+            int pregunta = JOptionPane.showConfirmDialog(null, "¿Está seguro de eliminar?");
+            if (pregunta == 0) {
+                int id = Integer.parseInt(txtIdProveedor.getText());
+                boolean resultado = proveedorDao.eliminarProveedor(id);
+                if (resultado) {
+                    JOptionPane.showMessageDialog(null, "Proveedor eliminado correctamente", "Información", JOptionPane.INFORMATION_MESSAGE);
+                    limpiarTablaProveedores();
+                    limpiarCamposProveedor();
+                    listarProveedores();
+                } else {
+                    JOptionPane.showMessageDialog(null, "Error al eliminar el proveedor", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        }
+    }//GEN-LAST:event_botonEliminarProveedorActionPerformed
+
+    private void botonEditarProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEditarProveedorActionPerformed
+        String ruc = txtRucProveedor.getText().trim();
+        String nombre = txtNombreProveedor.getText().trim();
+        String telefono = txtTelefonoProveedor.getText().trim();
+        String direccion = txtDireccionProveedor.getText().trim();
+        String razonSocial = txtRazonSocialProveedor.getText().trim();
+        if (txtIdProveedor.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "Seleccione una fila para editarla");
+        } else {
+            if (!txtRucProveedor.getText().equals("") || !txtNombreProveedor.getText().equals("") || !txtTelefonoProveedor.getText().equals("")) {
+                proveedor.setId(Integer.parseInt(txtIdProveedor.getText()));
+                proveedor.setRuc(Integer.parseInt(ruc));
+                proveedor.setNombre(nombre);
+                proveedor.setTelefono(Integer.parseInt(telefono));
+                proveedor.setDireccion(direccion);
+                proveedor.setRazonSocial(razonSocial);
+                boolean resultado = proveedorDao.modificarProveedor(proveedor);
+                if (resultado) {
+                    JOptionPane.showMessageDialog(null, "Proveedor actualizado");
+                    limpiarTablaProveedores();
+                    limpiarCamposProveedor();
+                    listarProveedores();
+                } else {
+                    JOptionPane.showMessageDialog(null, "Error al actualizar el proveedor");
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Los campos están vacíos");
+            }
+        }
+    
+    }//GEN-LAST:event_botonEditarProveedorActionPerformed
+
+    private void botonNuevoProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonNuevoProveedorActionPerformed
+        limpiarCamposProveedor();
+    }//GEN-LAST:event_botonNuevoProveedorActionPerformed
 
     private void limpiarCamposProducto() {
         txtCodigoProductos.setText("");
@@ -1174,6 +1320,15 @@ public class SistemaVista extends javax.swing.JFrame {
         txtDireccionCliente.setText("");
         txtRazonSocialCliente.setText("");
 
+    }
+
+    private void limpiarCamposProveedor() {
+        txtIdProveedor.setText("");
+        txtRucProveedor.setText("");
+        txtNombreProveedor.setText("");
+        txtTelefonoProveedor.setText("");
+        txtDireccionProveedor.setText("");
+        txtRazonSocialProveedor.setText("");
     }
 
 //    private void listarProductos() {
@@ -1238,7 +1393,6 @@ public class SistemaVista extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable TableProductos;
-    private javax.swing.JTable TableProveedor;
     private javax.swing.JTable TableVentaNueva;
     private javax.swing.JTable TableVentas;
     private javax.swing.JButton botoNuevoCliente;
@@ -1323,6 +1477,7 @@ public class SistemaVista extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField19;
     private javax.swing.JLabel labelTotal;
     private javax.swing.JTable tablaCliente;
+    private javax.swing.JTable tablaProveedor;
     private javax.swing.JTextArea textAreaResultadoIA;
     private javax.swing.JTextField txtCantidadProductos;
     private javax.swing.JTextField txtCantidadVenta;
@@ -1335,6 +1490,7 @@ public class SistemaVista extends javax.swing.JFrame {
     private javax.swing.JTextField txtDniCliente;
     private javax.swing.JTextField txtDniVenta;
     private javax.swing.JTextField txtIdCliente;
+    private javax.swing.JTextField txtIdProveedor;
     private javax.swing.JTextField txtIdVenta;
     private javax.swing.JTextField txtNombreCliente;
     private javax.swing.JTextField txtNombreClienteVenta;
