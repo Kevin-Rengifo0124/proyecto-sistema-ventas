@@ -6,13 +6,11 @@ package vista;
 
 import dao.ClienteDao;
 import dao.IADao;
-import dao.ProductoDao;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import modelo.Cliente;
 import modelo.Login;
-import modelo.Producto;
 
 /**
  *
@@ -33,8 +31,6 @@ public class SistemaVista extends javax.swing.JFrame {
     public SistemaVista(Login login) {
         initComponents();
         this.setLocationRelativeTo(null);
-        txtIdCliente.setVisible(false);
-        txtIdVenta.setVisible(false);
 
         if (login.getRol().equals("Asistente")) {
 
@@ -479,6 +475,11 @@ public class SistemaVista extends javax.swing.JFrame {
 
         botonEditarCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Actualizar (2).png"))); // NOI18N
         botonEditarCliente.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        botonEditarCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonEditarClienteActionPerformed(evt);
+            }
+        });
 
         botonEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/eliminar.png"))); // NOI18N
         botonEliminar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -519,24 +520,24 @@ public class SistemaVista extends javax.swing.JFrame {
                             .addComponent(txtTelefonoCliente)
                             .addComponent(txtDireccionCliente)
                             .addComponent(txtRazonSocialCliente, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
-                            .addComponent(txtDniCliente, javax.swing.GroupLayout.Alignment.TRAILING))))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                                .addComponent(txtDniCliente)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtIdCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtIdCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 439, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 439, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(46, 46, 46))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(15, 15, 15)
-                .addComponent(txtIdCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(44, 44, 44)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel12)
-                            .addComponent(txtDniCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtDniCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtIdCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel13)
@@ -648,7 +649,7 @@ public class SistemaVista extends javax.swing.JFrame {
                         .addComponent(botonEditarProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                         .addComponent(botonEliminarProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 77, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 58, Short.MAX_VALUE)
                         .addComponent(botonNuevoProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -734,26 +735,11 @@ public class SistemaVista extends javax.swing.JFrame {
         }
 
         botonGuardarProductos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/GuardarTodo.png"))); // NOI18N
-        botonGuardarProductos.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botonGuardarProductosActionPerformed(evt);
-            }
-        });
 
         botonEditarProductos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Actualizar (2).png"))); // NOI18N
-        botonEditarProductos.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botonEditarProductosActionPerformed(evt);
-            }
-        });
 
         botonEliminarProductos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/eliminar.png"))); // NOI18N
         botonEliminarProductos.setToolTipText("");
-        botonEliminarProductos.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botonEliminarProductosActionPerformed(evt);
-            }
-        });
 
         botonNuevoProducto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/nuevo.png"))); // NOI18N
         botonNuevoProducto.addActionListener(new java.awt.event.ActionListener() {
@@ -1024,69 +1010,19 @@ public class SistemaVista extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
 
-    private void botonGuardarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonGuardarClienteActionPerformed
-        String dni = txtDniCliente.getText().trim();
-        String nombre = txtNombreCliente.getText().trim();
-        String telefono = txtTelefonoCliente.getText().trim();
-        String direccion = txtDireccionCliente.getText().trim();
-        String razonSocial = txtRazonSocialCliente.getText().trim();
-
-        if (dni.isEmpty() || nombre.isEmpty() || telefono.isEmpty() || direccion.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Por favor completa todos los campos.");
-        } else {
-            cliente.setDni(Integer.parseInt(dni));
-            cliente.setNombre(nombre);
-            cliente.setTelefono(Integer.parseInt(telefono));
-            cliente.setDireccion(direccion);
-            cliente.setRazonSocial(razonSocial);
-
-            clienteDao.registrarCliente(cliente);
-            limpiarTabla();
-            limpiarCampos();
-            listarClientes();
-            JOptionPane.showMessageDialog(null, "¡Cliente Registrado!");
-        }
-    }//GEN-LAST:event_botonGuardarClienteActionPerformed
-
     private void botonClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonClientesActionPerformed
-        limpiarTabla();
+        limpiarTablaClientes();
         listarClientes();
         jTabbedPane1.setSelectedIndex(1);
     }//GEN-LAST:event_botonClientesActionPerformed
 
-    private void tablaClienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaClienteMouseClicked
-        int fila = tablaCliente.rowAtPoint(evt.getPoint());
-        txtIdCliente.setText(tablaCliente.getValueAt(fila, 0).toString());
-        txtDniCliente.setText(tablaCliente.getValueAt(fila, 1).toString());
-        txtNombreCliente.setText(tablaCliente.getValueAt(fila, 2).toString());
-        txtTelefonoCliente.setText(tablaCliente.getValueAt(fila, 3).toString());
-        txtDireccionCliente.setText(tablaCliente.getValueAt(fila, 4).toString());
-        txtRazonSocialCliente.setText(tablaCliente.getValueAt(fila, 5).toString());
-    }//GEN-LAST:event_tablaClienteMouseClicked
-
-    private void limpiarTabla() {
+    private void limpiarTablaClientes() {
         for (int i = 0; i < tablaModelo.getRowCount(); i++) {
             tablaModelo.removeRow(i);
             i = i - 1;
         }
     }
 
-
-    private void botonEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEliminarActionPerformed
-        if (txtIdCliente.getText().equals("")) {
-            JOptionPane.showMessageDialog(null, "Por favor, seleccione un cliente para eliminar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-        } else {
-            int pregunta = JOptionPane.showConfirmDialog(null, "¿Esta seguro de eliminar?");
-            if (pregunta == 0) {
-                int id = Integer.parseInt(txtIdCliente.getText());
-                clienteDao.eliminarCliente(id);
-                limpiarTabla();
-                limpiarCampos();
-                listarClientes();
-            }
-
-        }
-    }//GEN-LAST:event_botonEliminarActionPerformed
 
     private void botonAnalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAnalizarActionPerformed
 
@@ -1133,138 +1069,104 @@ public class SistemaVista extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtCodigoProductosActionPerformed
 
-    private void botonGuardarProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonGuardarProductosActionPerformed
-
-        // Validar que todos los campos estén completos
-        if (txtCodigoProductos.getText().isEmpty() || txtDescripcionProductos.getText().isEmpty()
-                || txtCantidadProductos.getText().isEmpty() || txtPrecioProductos.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Todos los campos son requeridos");
-            return;
-        }
-
-        try {
-            // Obtener los valores de los campos
-            String codigo = txtCodigoProductos.getText().trim();
-            String nombre = txtDescripcionProductos.getText().trim();
-            int stock = Integer.parseInt(txtCantidadProductos.getText().trim());
-            double precio = Double.parseDouble(txtPrecioProductos.getText().trim());
-            String proveedor = comboProveedorProductos.getSelectedItem().toString();
-
-            // Crear nuevo producto
-            Producto producto = new Producto();
-            producto.setCodigo(codigo);
-            producto.setNombre(nombre);
-            producto.setStock(stock);
-            producto.setPrecio(precio);
-            producto.setProveedor(proveedor);
-
-            // Guardar en base de datos usando ProductoDao
-            ProductoDao productoDao = new ProductoDao();
-            if (productoDao.registrarProducto(producto)) {
-                JOptionPane.showMessageDialog(null, "Producto registrado con éxito");
-                limpiarCamposProducto();
-                listarProductos(); // Método para actualizar la tabla de productos
-            } else {
-                JOptionPane.showMessageDialog(null, "Error al registrar el producto");
-            }
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(null, "Error en formato numérico. Verifique cantidad y precio");
-        }
-
-
-    }//GEN-LAST:event_botonGuardarProductosActionPerformed
-
-    private void botonEditarProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEditarProductosActionPerformed
-     
-        if (botonIdProductos.getText().isEmpty()) {
-        JOptionPane.showMessageDialog(null, "Seleccione un producto para editar");
-        return;
-    }
-    
-    try {
-        int id = Integer.parseInt(botonIdProductos.getText());
-        String codigo = txtCodigoProductos.getText().trim();
-        String nombre = txtDescripcionProductos.getText().trim();
-        int stock = Integer.parseInt(txtCantidadProductos.getText().trim());
-        double precio = Double.parseDouble(txtPrecioProductos.getText().trim());
-        String proveedor = comboProveedorProductos.getSelectedItem().toString();
-        
-        // Crear producto con datos actualizados
-        Producto producto = new Producto();
-        producto.setId(id);
-        producto.setCodigo(codigo);
-        producto.setNombre(nombre);
-        producto.setStock(stock);
-        producto.setPrecio(precio);
-        producto.setProveedor(proveedor);
-        
-        // Actualizar en base de datos
-        ProductoDao productoDao = new ProductoDao();
-        if (productoDao.actualizarProducto(producto)) {
-            JOptionPane.showMessageDialog(null, "Producto actualizado con éxito");
-            limpiarCamposProducto();
-            listarProductos(); // Actualizar la tabla
+    private void botonEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEliminarActionPerformed
+        if (txtIdCliente.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "Por favor, seleccione un cliente para eliminar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
         } else {
-            JOptionPane.showMessageDialog(null, "Error al actualizar el producto");
-        }
-    } catch (NumberFormatException e) {
-        JOptionPane.showMessageDialog(null, "Error en formato numérico. Verifique cantidad y precio");
-    }
-        
-    }//GEN-LAST:event_botonEditarProductosActionPerformed
-
-    private void botonEliminarProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEliminarProductosActionPerformed
-       
-        
-        if (botonIdProductos.getText().isEmpty()) {
-        JOptionPane.showMessageDialog(null, "Seleccione un producto para eliminar");
-        return;
-    }
-    
-    int confirmacion = JOptionPane.showConfirmDialog(null, 
-            "¿Está seguro de eliminar este producto?", 
-            "Confirmar eliminación", 
-            JOptionPane.YES_NO_OPTION);
-            
-    if (confirmacion == JOptionPane.YES_OPTION) {
-        try {
-            int id = Integer.parseInt(botonIdProductos.getText());
-            
-            ProductoDao productoDao = new ProductoDao();
-            if (productoDao.eliminarProducto(id)) {
-                JOptionPane.showMessageDialog(null, "Producto eliminado con éxito");
-                limpiarCamposProducto();
-                listarProductos(); // Actualizar la tabla
-            } else {
-                JOptionPane.showMessageDialog(null, "Error al eliminar el producto");
+            int pregunta = JOptionPane.showConfirmDialog(null, "¿Esta seguro de eliminar?");
+            if (pregunta == 0) {
+                int id = Integer.parseInt(txtIdCliente.getText());
+                clienteDao.eliminarCliente(id);
+                limpiarTablaClientes();
+                limpiarCamposCliente();
+                listarClientes();
             }
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(null, "Error al obtener ID del producto");
+
         }
-    }
-    }//GEN-LAST:event_botonEliminarProductosActionPerformed
+    }//GEN-LAST:event_botonEliminarActionPerformed
+
+    private void botonEditarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEditarClienteActionPerformed
+        String dni = txtDniCliente.getText().trim();
+        String nombre = txtNombreCliente.getText().trim();
+        String telefono = txtTelefonoCliente.getText().trim();
+        String direccion = txtDireccionCliente.getText().trim();
+        String razonSocial = txtRazonSocialCliente.getText().trim();
+
+        if (txtIdCliente.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "Seleccione una fila para editarla");
+        } else {
+
+            if (!txtDniCliente.getText().equals("") || !txtNombreCliente.getText().equals("") || !txtTelefonoCliente.getText().equals("")) {
+                cliente.setId(Integer.parseInt(txtIdCliente.getText())); // Add this line
+                cliente.setDni(Integer.parseInt(dni));
+                cliente.setNombre(nombre);
+                cliente.setTelefono(Integer.parseInt(telefono));
+                cliente.setDireccion(direccion);
+                cliente.setRazonSocial(razonSocial);
+                clienteDao.modificarCliente(cliente);
+                limpiarTablaClientes();
+                limpiarCamposCliente();
+                listarClientes();
+            } else {
+                JOptionPane.showMessageDialog(null, "Los campos estan vacios");
+            }
+        }
+    }//GEN-LAST:event_botonEditarClienteActionPerformed
+
+    private void botonGuardarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonGuardarClienteActionPerformed
+        String dni = txtDniCliente.getText().trim();
+        String nombre = txtNombreCliente.getText().trim();
+        String telefono = txtTelefonoCliente.getText().trim();
+        String direccion = txtDireccionCliente.getText().trim();
+        String razonSocial = txtRazonSocialCliente.getText().trim();
+
+        if (dni.isEmpty() || nombre.isEmpty() || telefono.isEmpty() || direccion.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Por favor completa todos los campos.");
+        } else {
+            cliente.setDni(Integer.parseInt(dni));
+            cliente.setNombre(nombre);
+            cliente.setTelefono(Integer.parseInt(telefono));
+            cliente.setDireccion(direccion);
+            cliente.setRazonSocial(razonSocial);
+
+            clienteDao.registrarCliente(cliente);
+            limpiarTablaClientes();
+            limpiarCamposCliente();
+            listarClientes();
+            JOptionPane.showMessageDialog(null, "¡Cliente Registrado!");
+        }
+    }//GEN-LAST:event_botonGuardarClienteActionPerformed
+
+    private void tablaClienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaClienteMouseClicked
+        int fila = tablaCliente.rowAtPoint(evt.getPoint());
+        txtIdCliente.setText(tablaCliente.getValueAt(fila, 0).toString());
+        txtDniCliente.setText(tablaCliente.getValueAt(fila, 1).toString());
+        txtNombreCliente.setText(tablaCliente.getValueAt(fila, 2).toString());
+        txtTelefonoCliente.setText(tablaCliente.getValueAt(fila, 3).toString());
+        txtDireccionCliente.setText(tablaCliente.getValueAt(fila, 4).toString());
+        txtRazonSocialCliente.setText(tablaCliente.getValueAt(fila, 5).toString());
+    }//GEN-LAST:event_tablaClienteMouseClicked
 
     private void botonNuevoProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonNuevoProductoActionPerformed
         limpiarCamposProducto();
     }//GEN-LAST:event_botonNuevoProductoActionPerformed
 
-    
     private void limpiarCamposProducto() {
-    txtCodigoProductos.setText("");
-    txtDescripcionProductos.setText("");
-    txtCantidadProductos.setText("");
-    txtPrecioProductos.setText("");
-    
-    // Verificar que el combo tenga elementos antes de seleccionar
-    if (comboProveedorProductos.getItemCount() > 0) {
-        comboProveedorProductos.setSelectedIndex(0);
+        txtCodigoProductos.setText("");
+        txtDescripcionProductos.setText("");
+        txtCantidadProductos.setText("");
+        txtPrecioProductos.setText("");
+
+        // Verificar que el combo tenga elementos antes de seleccionar
+        if (comboProveedorProductos.getItemCount() > 0) {
+            comboProveedorProductos.setSelectedIndex(0);
+        }
+
+        botonIdProductos.setText("");
+        txtCodigoProductos.requestFocus(); // Para colocar el cursor en el primer campo
     }
-    
-    botonIdProductos.setText("");
-    txtCodigoProductos.requestFocus(); // Para colocar el cursor en el primer campo
-}
-   
-    private void limpiarCampos() {
+
+    private void limpiarCamposCliente() {
         txtIdCliente.setText("");
         txtDniCliente.setText("");
         txtNombreCliente.setText("");
@@ -1273,38 +1175,31 @@ public class SistemaVista extends javax.swing.JFrame {
         txtRazonSocialCliente.setText("");
 
     }
-    
-    
-    
 
-
-    private void listarProductos() {
-        ProductoDao productoDao = new ProductoDao();
-        List<Producto> lista = productoDao.listarProductos();
-        DefaultTableModel modelo = (DefaultTableModel) TableProductos.getModel();
-
-        // Limpiar tabla
-        for (int i = 0; i < modelo.getRowCount(); i++) {
-            modelo.removeRow(i);
-            i = i - 1;
-        }
-
-        // Agregar filas con datos
-        Object[] objeto = new Object[5];
-        for (int i = 0; i < lista.size(); i++) {
-            objeto[0] = lista.get(i).getCodigo();
-            objeto[1] = lista.get(i).getNombre();
-            objeto[2] = lista.get(i).getStock();
-            objeto[3] = lista.get(i).getPrecio();
-            objeto[4] = lista.get(i).getProveedor();
-            modelo.addRow(objeto);
-        }
-
-        TableProductos.setModel(modelo);
-    }
-    
-    
-
+//    private void listarProductos() {
+//        ProductoDao productoDao = new ProductoDao();
+//        List<Producto> lista = productoDao.listarProductos();
+//        DefaultTableModel modelo = (DefaultTableModel) TableProductos.getModel();
+//
+//        // Limpiar tabla
+//        for (int i = 0; i < modelo.getRowCount(); i++) {
+//            modelo.removeRow(i);
+//            i = i - 1;
+//        }
+//
+//        // Agregar filas con datos
+//        Object[] objeto = new Object[5];
+//        for (int i = 0; i < lista.size(); i++) {
+//            objeto[0] = lista.get(i).getCodigo();
+//            objeto[1] = lista.get(i).getNombre();
+//            objeto[2] = lista.get(i).getStock();
+//            objeto[3] = lista.get(i).getPrecio();
+//            objeto[4] = lista.get(i).getProveedor();
+//            modelo.addRow(objeto);
+//        }
+//
+//        TableProductos.setModel(modelo);
+//    }
     /**
      * @param args the command line arguments
      */

@@ -94,4 +94,30 @@ public class ClienteDao {
             }
         }
     }
+
+    public boolean modificarCliente(Cliente cliente) {
+        String modificar = "UPDATE clientes SET dni=?, nombre=?, telefono=?, direccion=?, razon=? WHERE id=?";
+
+        try {
+            conexion = conexionBD.getConexion();
+            sentenciaPreparada = conexion.prepareStatement(modificar);
+            sentenciaPreparada.setInt(1, cliente.getDni());
+            sentenciaPreparada.setString(2, cliente.getNombre());
+            sentenciaPreparada.setInt(3, cliente.getTelefono());
+            sentenciaPreparada.setString(4, cliente.getDireccion());
+            sentenciaPreparada.setString(5, cliente.getRazonSocial());
+            sentenciaPreparada.setInt(6, cliente.getId());
+            sentenciaPreparada.execute();
+            return true;
+        } catch (SQLException excepcion) {
+            System.out.println(excepcion.toString());
+            return false;
+        } finally {
+            try {
+                conexion.close();
+            } catch (SQLException excepcion) {
+                System.out.println(excepcion.toString());
+            }
+        }
+    }
 }
