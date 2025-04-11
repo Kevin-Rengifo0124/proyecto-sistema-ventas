@@ -125,6 +125,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Productos"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botonProductosActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="botonVentas">
           <Properties>
@@ -1061,11 +1064,15 @@
                                   </Group>
                                   <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                      <Component id="txtCodigoProductos" max="32767" attributes="0"/>
                                       <Component id="txtDescripcionProductos" max="32767" attributes="0"/>
                                       <Component id="txtCantidadProductos" max="32767" attributes="0"/>
                                       <Component id="txtPrecioProductos" max="32767" attributes="0"/>
                                       <Component id="comboProveedorProductos" pref="150" max="32767" attributes="0"/>
+                                      <Group type="102" alignment="0" attributes="0">
+                                          <Component id="txtCodigoProductos" min="-2" pref="109" max="-2" attributes="0"/>
+                                          <EmptySpace max="32767" attributes="0"/>
+                                          <Component id="txtIdProductos" min="-2" pref="34" max="-2" attributes="0"/>
+                                      </Group>
                                   </Group>
                               </Group>
                               <Group type="102" attributes="0">
@@ -1082,26 +1089,22 @@
                           <Component id="botonExcelProductos" min="-2" pref="100" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jScrollPane4" min="-2" max="-2" attributes="0"/>
-                          <Component id="botonIdProductos" min="-2" pref="34" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace pref="29" max="32767" attributes="0"/>
+                      <Component id="jScrollPane4" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace pref="8" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
-                      <Component id="botonIdProductos" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="44" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jScrollPane4" min="-2" pref="325" max="-2" attributes="0"/>
                           <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="jLabel22" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="txtCodigoProductos" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="txtIdProductos" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
@@ -1209,15 +1212,16 @@
 
               <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
               <SubComponents>
-                <Component class="javax.swing.JTable" name="TableProductos">
+                <Component class="javax.swing.JTable" name="tablaProductos">
                   <Properties>
                     <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                      <Table columnCount="5" rowCount="0">
+                      <Table columnCount="6" rowCount="0">
+                        <Column editable="true" title="Id" type="java.lang.Object"/>
                         <Column editable="true" title="C&#xf3;digo" type="java.lang.Object"/>
                         <Column editable="true" title="Descripci&#xf3;n" type="java.lang.Object"/>
+                        <Column editable="true" title="Proveedor" type="java.lang.Object"/>
                         <Column editable="true" title="Stock" type="java.lang.Object"/>
                         <Column editable="true" title="Precio" type="java.lang.Object"/>
-                        <Column editable="true" title="Proveedor" type="java.lang.Object"/>
                       </Table>
                     </Property>
                     <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
@@ -1233,6 +1237,11 @@
                           <Renderer/>
                         </Column>
                         <Column maxWidth="-1" minWidth="-1" prefWidth="40" resizable="true">
+                          <Title/>
+                          <Editor/>
+                          <Renderer/>
+                        </Column>
+                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                           <Title/>
                           <Editor/>
                           <Renderer/>
@@ -1253,6 +1262,9 @@
                       <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tablaProductosMouseClicked"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>
@@ -1262,6 +1274,9 @@
                   <Image iconType="3" name="/imagenes/GuardarTodo.png"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botonGuardarProductosActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="botonEditarProductos">
               <Properties>
@@ -1269,6 +1284,9 @@
                   <Image iconType="3" name="/imagenes/Actualizar (2).png"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botonEditarProductosActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="botonEliminarProductos">
               <Properties>
@@ -1277,6 +1295,9 @@
                 </Property>
                 <Property name="toolTipText" type="java.lang.String" value=""/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botonEliminarProductosActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="botonNuevoProducto">
               <Properties>
@@ -1295,7 +1316,7 @@
                 </Property>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="botonIdProductos">
+            <Component class="javax.swing.JTextField" name="txtIdProductos">
             </Component>
           </SubComponents>
         </Container>
